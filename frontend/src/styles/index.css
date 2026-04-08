@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #11212d;
+}
+
+.input {
+  @apply rounded-xl border border-mist bg-sand px-3 py-2 text-sm text-ink outline-none transition focus:border-ocean;
+}

@@ -1,0 +1,8 @@
+create 'inventory', 'details'
+create 'inventory_logs', 'logs'
+
+describe 'inventory'
+describe 'inventory_logs'
+
+scan 'inventory'
+scan 'inventory_logs'

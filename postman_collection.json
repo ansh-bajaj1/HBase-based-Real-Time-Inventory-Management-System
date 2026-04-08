@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "HBase Real-Time Inventory API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add Item",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/item/add",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"itemId\": \"ITM-2001\",\n  \"name\": \"Gaming Headset\",\n  \"category\": \"Electronics\",\n  \"price\": 3299.00,\n  \"stockQuantity\": 25\n}"
+        }
+      }
+    },
+    {
+      "name": "Update Stock",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/item/update/ITM-2001",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"stockQuantity\": 8\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Item",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/item/ITM-2001"
+      }
+    },
+    {
+      "name": "Get All Items",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/items/all"
+      }
+    },
+    {
+      "name": "Low Stock",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/items/low-stock"
+      }
+    },
+    {
+      "name": "Delete Item",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/item/ITM-2001"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ]
+}
