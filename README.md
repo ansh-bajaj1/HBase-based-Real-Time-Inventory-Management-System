@@ -110,10 +110,34 @@ HBase auto-creates both tables at backend startup using `TableInitializer`.
 
 - Spark analytics starter job: `analytics/spark/top_selling_items.py`
 - Unit test sample: `InventoryMapperTest`
+- JWT authentication with register/login and protected inventory APIs
 
 ## 7. API Documentation
 
 Base URL: `http://localhost:8080`
+
+### Authentication
+
+- Register: `POST /auth/register`
+- Login: `POST /auth/login`
+- All `/item/*` and `/items/*` endpoints require `Authorization: Bearer <token>`
+
+Register example:
+
+```json
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+Login response:
+
+```json
+{
+  "token": "<jwt-token>"
+}
+```
 
 ### 1) Add Item
 
@@ -302,7 +326,17 @@ Capture these after running project:
 - Global exception handling with structured error payloads.
 - Request logging filter for API traceability.
 
-## 15. Future Enhancements
+## 15. Security (JWT)
+
+- Spring Security configured in stateless mode.
+- JWT filter validates bearer token for each secured API request.
+- Passwords are stored as BCrypt hashes.
+- Auth endpoints are public, inventory endpoints are protected.
+- Token secret and expiration are configurable via environment variables:
+  - `JWT_SECRET`
+  - `JWT_EXPIRATION_MS`
+
+## 16. Future Enhancements
 
 - JWT authentication and RBAC for API and dashboard.
 - Redis caching for high-read endpoints.
@@ -311,7 +345,7 @@ Capture these after running project:
 - Spark Structured Streaming for advanced real-time analytics.
 - CI/CD pipeline with integration tests and container image scanning.
 
-## 16. Useful Commands
+## 17. Useful Commands
 
 ### Build backend tests locally
 
@@ -329,7 +363,7 @@ docker exec -it kafka kafka-console-consumer.sh \
   --from-beginning
 ```
 
-## 17. Notes for Lab Evaluation
+## 18. Notes for Lab Evaluation
 
 - The project is modular and production-style with controller-service-repository layering.
 - Uses event-driven architecture with Kafka and HBase persistence.

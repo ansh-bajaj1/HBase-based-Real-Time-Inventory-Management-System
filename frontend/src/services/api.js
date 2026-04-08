@@ -5,6 +5,17 @@ const api = axios.create({
   timeout: 10000
 });
 
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('inventory_jwt');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export const registerUser = (payload) => api.post('/auth/register', payload);
+export const loginUser = (payload) => api.post('/auth/login', payload);
+
 export const getAllItems = () => api.get('/items/all');
 export const getLowStockItems = () => api.get('/items/low-stock');
 export const addItem = (payload) => api.post('/item/add', payload);
