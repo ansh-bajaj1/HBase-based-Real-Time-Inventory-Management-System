@@ -21,6 +21,9 @@ inventory:
   kafka:
     topic: ${INVENTORY_TOPIC:inventory-updates}
   low-stock-threshold: ${LOW_STOCK_THRESHOLD:10}
+  auth:
+    jwt-secret: ${JWT_SECRET:my-super-secret-key-that-is-at-least-32-characters}
+    jwt-expiration-ms: ${JWT_EXPIRATION_MS:3600000}
   hbase:
     zookeeper-quorum: ${HBASE_ZOOKEEPER_QUORUM:hbase}
     zookeeper-port: ${HBASE_ZOOKEEPER_PORT:2181}

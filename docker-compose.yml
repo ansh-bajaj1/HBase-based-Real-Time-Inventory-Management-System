@@ -84,6 +84,8 @@ services:
       - HBASE_ZOOKEEPER_PORT=2181
       - INVENTORY_TOPIC=inventory-updates
       - LOW_STOCK_THRESHOLD=10
+      - JWT_SECRET=inventory-jwt-secret-key-should-be-32chars
+      - JWT_EXPIRATION_MS=3600000
     ports:
       - "8080:8080"
     networks:
