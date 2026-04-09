@@ -11,6 +11,7 @@ function DashboardPage() {
   const [alerts, setAlerts] = useState([]);
   const [error, setError] = useState('');
   const [authenticated, setAuthenticated] = useState(Boolean(localStorage.getItem('inventory_jwt')));
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('inventory_user') || '');
 
   const refresh = async () => {
     try {
@@ -21,6 +22,7 @@ function DashboardPage() {
     } catch (err) {
       if (err?.response?.status === 401 || err?.response?.status === 403) {
         localStorage.removeItem('inventory_jwt');
+        localStorage.removeItem('inventory_user');
         setAuthenticated(false);
         setError('Session expired. Please login again.');
       } else {
@@ -62,10 +64,17 @@ function DashboardPage() {
   if (!authenticated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_#c8d8e4_0%,_#f2efe9_45%,_#ffffff_100%)] px-4">
-        <AuthPanel onAuthenticated={() => setAuthenticated(true)} />
+        <AuthPanel
+          onAuthenticated={(username) => {
+            setCurrentUser(username);
+            setAuthenticated(true);
+          }}
+        />
       </div>
     );
   }
+
+  const isAdmin = currentUser === 'admin';
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#c8d8e4_0%,_#f2efe9_45%,_#ffffff_100%)] px-4 py-8">
@@ -80,6 +89,8 @@ function DashboardPage() {
             className="mt-4 rounded-xl bg-ink px-4 py-2 text-sm font-semibold text-white"
             onClick={() => {
               localStorage.removeItem('inventory_jwt');
+              localStorage.removeItem('inventory_user');
+              setCurrentUser('');
               setAuthenticated(false);
             }}
           >
@@ -89,7 +100,7 @@ function DashboardPage() {
 
         {error && <p className="rounded-xl bg-coral px-4 py-2 text-sm font-medium text-white">{error}</p>}
 
-        <DashboardStats {...stats} />
+        <DashboardStats {...stats} items={items} isAdmin={isAdmin} />
         <AddItemForm onSubmit={handleAdd} />
         <InventoryTable items={items} onDelete={handleDelete} onUpdate={handleUpdate} />
         <LowStockAlerts alerts={alerts} />

@@ -13,8 +13,9 @@ function AuthPanel({ onAuthenticated }) {
       const action = mode === 'login' ? loginUser : registerUser;
       const response = await action({ username, password });
       localStorage.setItem('inventory_jwt', response.data.token);
+      localStorage.setItem('inventory_user', username);
       setError('');
-      onAuthenticated();
+      onAuthenticated(username);
     } catch (err) {
       setError('Authentication failed. Check credentials and try again.');
     }
@@ -45,6 +46,12 @@ function AuthPanel({ onAuthenticated }) {
           {mode === 'login' ? 'Login' : 'Register'}
         </button>
       </form>
+      {mode === 'login' && (
+        <p className="mt-3 rounded-lg bg-ink/90 px-3 py-2 text-xs text-white">
+          Demo admin login: username <span className="font-semibold">admin</span>, password{' '}
+          <span className="font-semibold">admin</span>
+        </p>
+      )}
       <button
         className="mt-3 text-sm font-medium text-ocean underline"
         onClick={() => setMode((prev) => (prev === 'login' ? 'register' : 'login'))}
